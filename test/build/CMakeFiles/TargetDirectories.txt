@@ -1,0 +1,7 @@
+/home/yjlee/project/bmc/CrossCompile/test/build/CMakeFiles/test.dir
+/home/yjlee/project/bmc/CrossCompile/test/build/CMakeFiles/edit_cache.dir
+/home/yjlee/project/bmc/CrossCompile/test/build/CMakeFiles/rebuild_cache.dir
+/home/yjlee/project/bmc/CrossCompile/test/build/CMakeFiles/list_install_components.dir
+/home/yjlee/project/bmc/CrossCompile/test/build/CMakeFiles/install.dir
+/home/yjlee/project/bmc/CrossCompile/test/build/CMakeFiles/install/local.dir
+/home/yjlee/project/bmc/CrossCompile/test/build/CMakeFiles/install/strip.dir
