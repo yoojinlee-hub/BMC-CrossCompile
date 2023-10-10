@@ -68,12 +68,19 @@ int i2c_write(u8 slave_addr, u8 reg, u8 *data) {
     return 0;
 }
 
-// Read the given I2C slave device's register and return the read value in `*result`:
-int i2c_read(u8 slave_addr, u8 reg, u8 *result) {
+int i2c_read_1010(u8 slave_addr, u8 reg, u8 *result) {
+
+    //// Global file descriptor used to talk to the I2C bus:
+    ////int i2c_fd = -1;
+
     int retval;
-    u8 outbuf[1], inbuf[1];
+    u8 outbuf[1];
+    u8 inbuf[2];
     struct i2c_msg msgs[2];
     struct i2c_rdwr_ioctl_data msgset[1];
+
+    *result = 0;
+    outbuf[0] = reg;
 
     msgs[0].addr = slave_addr;
     msgs[0].flags = 0;
@@ -81,16 +88,83 @@ int i2c_read(u8 slave_addr, u8 reg, u8 *result) {
     msgs[0].buf = outbuf;
 
     msgs[1].addr = slave_addr;
-    msgs[1].flags = I2C_M_RD | I2C_M_NOSTART;
-    msgs[1].len = 1;
+    msgs[1].flags = I2C_M_RD;
+    msgs[1].len = 2;
     msgs[1].buf = inbuf;
 
     msgset[0].msgs = msgs;
     msgset[0].nmsgs = 2;
 
+    if (ioctl(i2c_fd, I2C_RDWR, &msgset) < 0) {
+        perror("ioctl(I2C_RDWR) in i2c_read");
+        return -1;
+    }
+
+    // 두 개의 바이트를 하나의 16비트 값으로 합치기 위해 비트 연산을 사용
+    *result = (inbuf[0] << 8) | inbuf[1];
+
+    printf("Result: %X\n", *result);
+
+    return 0;
+}
+
+int i2c_read(u8 slave_addr, u8 reg, u8 *result) {
+    int retval;
+    u8 outbuf[1], inbuf[2]; // 변경: inbuf 크기를 2로 변경
+    struct i2c_msg msgs[2];
+    struct i2c_rdwr_ioctl_data msgset[1];
+
+    // Frame 1: Two-Wire Slave Address Byte + Frame 2: Pointer Register Byte
     outbuf[0] = reg;
 
+    msgs[0].addr = slave_addr;
+    msgs[0].flags = 0;
+    msgs[0].len = 1;
+    msgs[0].buf = outbuf;
+
+    // Frame 3: Two-Wire Slave Address Byte (Read) + Frame 4: Data Byte 1 Read Register
+    msgs[1].addr = slave_addr;
+    msgs[1].flags = I2C_M_RD;
+    msgs[1].len = 2; // 변경: 데이터 바이트 2개를 읽도록 설정
+    msgs[1].buf = inbuf;
+
+    msgset[0].msgs = msgs;
+    msgset[0].nmsgs = 2;
+
+    *result = 0;
+    if (ioctl(i2c_fd, I2C_RDWR, &msgset) < 0) {
+        perror("ioctl(I2C_RDWR) in i2c_read");
+        return -1;
+    }
+
+    // Frame 5: Data Byte 2 Read Register
+    *result = inbuf[1];
+    printf("%d\n", *result);
+    return 0;
+}
+/*
+// Read the given I2C slave device's register and return the read value in `*result`:
+int i2c_read(u8 slave_addr, u8 reg, u8 *result) {
+    int retval;
+    u8 outbuf[1], inbuf[1];
+    struct i2c_msg msgs[2];
+    struct i2c_rdwr_ioctl_data msgset[1];
+
+    outbuf[0] = reg;
     inbuf[0] = 0;
+
+    msgs[0].addr = slave_addr;
+    msgs[0].flags = 0;
+    msgs[0].len = 1;
+    msgs[0].buf = outbuf;
+
+    msgs[1].addr = slave_addr;
+    msgs[1].flags = I2C_M_RD;
+    msgs[1].len = 1;
+    msgs[1].buf = inbuf;
+
+    msgset[0].msgs = msgs;
+    msgset[0].nmsgs = 2;
 
     *result = 0;
     if (ioctl(i2c_fd, I2C_RDWR, &msgset) < 0) {
@@ -99,9 +173,10 @@ int i2c_read(u8 slave_addr, u8 reg, u8 *result) {
     }
 
     *result = inbuf[0];
+    printf("%d\n",*result);
     return 0;
 }
-
+*/
 //Read function Made by YJ..
 int yj_read(){
     int fd;
@@ -131,12 +206,12 @@ int yj_read(){
             return 1;
         }
 
-	T = ((data[0]&0xFF)<<4)|((data[1]>>4)&0x0F);
-		
+    T = ((data[0]&0xFF)<<4)|((data[1]>>4)&0x0F);
+        
         // 읽은 데이터 출력
         printf("iw:Data from 0x%02X: %02X %02X\n", i2c_addresses[i], data[0], data[1]);
-	printf("%d\n",T);
-	printf("%d\n",T*625 );
+    printf("%d\n",T);
+    printf("%d\n",T*625 );
     }
 
     // I2C 장치 파일 닫기
@@ -150,18 +225,26 @@ int yj_read(){
  *
  * ******************************************************/
 int main(void){
-	u8 slave_addr = 0x48;
-	u8 w_reg = 0x03;
-	u8 data[2] = {0xAA, 0x00};
+    u8 slave_addr = 0x48;
+    u8 w_reg = 0x03;
+    u8 data[2] = {0xAA, 0x00};
+    u8 *read_data;
 
-	i2c_init();
+    i2c_init();
 
-	i2c_write(slave_addr, w_reg, data);
-	//i2c_read(slave_addr, w_reg, data);
-	
-	i2c_close();
+    printf("\n yjread:");
+    yj_read();    
+    printf("\n i2c_read:");
+    i2c_read(slave_addr, w_reg, read_data);
+    printf("\n i2c_read_1010:");
+    i2c_read_1010(slave_addr, w_reg, read_data);
 
-	printf("Made by YJ==\n");
+
+    i2c_write(slave_addr, w_reg, data);
+
+    i2c_close();
+
+    printf("Made by YJ==\n");
 
 }
 
