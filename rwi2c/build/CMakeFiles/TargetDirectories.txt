@@ -1,7 +1,7 @@
-/home/yjlee/project/bmc/obmc_phoenix_V3.01/CrossCompile/rwi2c/build/CMakeFiles/rwi2c.dir
-/home/yjlee/project/bmc/obmc_phoenix_V3.01/CrossCompile/rwi2c/build/CMakeFiles/edit_cache.dir
-/home/yjlee/project/bmc/obmc_phoenix_V3.01/CrossCompile/rwi2c/build/CMakeFiles/rebuild_cache.dir
-/home/yjlee/project/bmc/obmc_phoenix_V3.01/CrossCompile/rwi2c/build/CMakeFiles/list_install_components.dir
-/home/yjlee/project/bmc/obmc_phoenix_V3.01/CrossCompile/rwi2c/build/CMakeFiles/install.dir
-/home/yjlee/project/bmc/obmc_phoenix_V3.01/CrossCompile/rwi2c/build/CMakeFiles/install/local.dir
-/home/yjlee/project/bmc/obmc_phoenix_V3.01/CrossCompile/rwi2c/build/CMakeFiles/install/strip.dir
+/home/yjlee/git_yj/BMC-CrossCompile/rwi2c/build/CMakeFiles/rwi2c.dir
+/home/yjlee/git_yj/BMC-CrossCompile/rwi2c/build/CMakeFiles/edit_cache.dir
+/home/yjlee/git_yj/BMC-CrossCompile/rwi2c/build/CMakeFiles/rebuild_cache.dir
+/home/yjlee/git_yj/BMC-CrossCompile/rwi2c/build/CMakeFiles/list_install_components.dir
+/home/yjlee/git_yj/BMC-CrossCompile/rwi2c/build/CMakeFiles/install.dir
+/home/yjlee/git_yj/BMC-CrossCompile/rwi2c/build/CMakeFiles/install/local.dir
+/home/yjlee/git_yj/BMC-CrossCompile/rwi2c/build/CMakeFiles/install/strip.dir

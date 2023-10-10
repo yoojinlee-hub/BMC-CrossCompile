@@ -34,7 +34,7 @@ include CMakeFiles/rules.ninja
 #############################################
 # Logical path to working directory; prefix for absolute paths.
 
-cmake_ninja_workdir = /home/yjlee/project/bmc/obmc_phoenix_V3.01/CrossCompile/rwi2c/build/
+cmake_ninja_workdir = /home/yjlee/git_yj/BMC-CrossCompile/rwi2c/build/
 # =============================================================================
 # Object build statements for EXECUTABLE target rwi2c
 
@@ -44,7 +44,7 @@ cmake_ninja_workdir = /home/yjlee/project/bmc/obmc_phoenix_V3.01/CrossCompile/rw
 
 build cmake_object_order_depends_target_rwi2c: phony || CMakeFiles/rwi2c.dir
 
-build CMakeFiles/rwi2c.dir/rwi2c.c.o: C_COMPILER__rwi2c_ /home/yjlee/project/bmc/obmc_phoenix_V3.01/CrossCompile/rwi2c/rwi2c.c || cmake_object_order_depends_target_rwi2c
+build CMakeFiles/rwi2c.dir/rwi2c.c.o: C_COMPILER__rwi2c_ /home/yjlee/git_yj/BMC-CrossCompile/rwi2c/rwi2c.c || cmake_object_order_depends_target_rwi2c
   DEP_FILE = CMakeFiles/rwi2c.dir/rwi2c.c.o.d
   FLAGS = --sysroot=/usr/local/oecore-x86_64/sysroots/armv7ahf-vfpv4d16-openbmc-linux-gnueabi -mfloat-abi=hard -mfpu=neon
   OBJECT_DIR = CMakeFiles/rwi2c.dir
@@ -72,7 +72,7 @@ build rwi2c: C_EXECUTABLE_LINKER__rwi2c_ CMakeFiles/rwi2c.dir/rwi2c.c.o
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/yjlee/project/bmc/obmc_phoenix_V3.01/CrossCompile/rwi2c/build && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /home/yjlee/git_yj/BMC-CrossCompile/rwi2c/build && /usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 
@@ -83,7 +83,7 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/yjlee/project/bmc/obmc_phoenix_V3.01/CrossCompile/rwi2c/build && /usr/bin/cmake --regenerate-during-build -S/home/yjlee/project/bmc/obmc_phoenix_V3.01/CrossCompile/rwi2c -B/home/yjlee/project/bmc/obmc_phoenix_V3.01/CrossCompile/rwi2c/build
+  COMMAND = cd /home/yjlee/git_yj/BMC-CrossCompile/rwi2c/build && /usr/bin/cmake --regenerate-during-build -S/home/yjlee/git_yj/BMC-CrossCompile/rwi2c -B/home/yjlee/git_yj/BMC-CrossCompile/rwi2c/build
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -101,7 +101,7 @@ build list_install_components: phony
 # Utility command for install
 
 build CMakeFiles/install.util: CUSTOM_COMMAND all
-  COMMAND = cd /home/yjlee/project/bmc/obmc_phoenix_V3.01/CrossCompile/rwi2c/build && /usr/bin/cmake -P cmake_install.cmake
+  COMMAND = cd /home/yjlee/git_yj/BMC-CrossCompile/rwi2c/build && /usr/bin/cmake -P cmake_install.cmake
   DESC = Install the project...
   pool = console
   restat = 1
@@ -113,7 +113,7 @@ build install: phony CMakeFiles/install.util
 # Utility command for install/local
 
 build CMakeFiles/install/local.util: CUSTOM_COMMAND all
-  COMMAND = cd /home/yjlee/project/bmc/obmc_phoenix_V3.01/CrossCompile/rwi2c/build && /usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+  COMMAND = cd /home/yjlee/git_yj/BMC-CrossCompile/rwi2c/build && /usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
   DESC = Installing only the local directory...
   pool = console
   restat = 1
@@ -125,7 +125,7 @@ build install/local: phony CMakeFiles/install/local.util
 # Utility command for install/strip
 
 build CMakeFiles/install/strip.util: CUSTOM_COMMAND all
-  COMMAND = cd /home/yjlee/project/bmc/obmc_phoenix_V3.01/CrossCompile/rwi2c/build && /usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+  COMMAND = cd /home/yjlee/git_yj/BMC-CrossCompile/rwi2c/build && /usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
   DESC = Installing the project stripped...
   pool = console
   restat = 1
@@ -141,7 +141,7 @@ build install/strip: phony CMakeFiles/install/strip.util
 # =============================================================================
 
 #############################################
-# Folder: /home/yjlee/project/bmc/obmc_phoenix_V3.01/CrossCompile/rwi2c/build
+# Folder: /home/yjlee/git_yj/BMC-CrossCompile/rwi2c/build
 
 build all: phony rwi2c
 

@@ -1,4 +1,4 @@
-# Install script for directory: /home/yjlee/project/bmc/obmc_phoenix_V3.01/CrossCompile/rwi2c
+# Install script for directory: /home/yjlee/git_yj/BMC-CrossCompile/rwi2c
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -49,7 +49,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/rwi2c"
          RPATH "")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/home/yjlee/project/bmc/obmc_phoenix_V3.01/CrossCompile/rwi2c/build/rwi2c")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/home/yjlee/git_yj/BMC-CrossCompile/rwi2c/build/rwi2c")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/rwi2c" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/rwi2c")
     if(CMAKE_INSTALL_DO_STRIP)
@@ -66,5 +66,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/yjlee/project/bmc/obmc_phoenix_V3.01/CrossCompile/rwi2c/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/yjlee/git_yj/BMC-CrossCompile/rwi2c/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
