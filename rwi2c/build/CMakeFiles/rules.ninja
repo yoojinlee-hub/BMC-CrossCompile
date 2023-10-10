@@ -42,7 +42,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = /usr/bin/cmake --regenerate-during-build -S/home/yjlee/project/bmc/obmc_phoenix_V3.01/CrossCompile/rwi2c -B/home/yjlee/project/bmc/obmc_phoenix_V3.01/CrossCompile/rwi2c/build
+  command = /usr/bin/cmake --regenerate-during-build -S/home/yjlee/git_yj/BMC-CrossCompile/rwi2c -B/home/yjlee/git_yj/BMC-CrossCompile/rwi2c/build
   description = Re-running CMake...
   generator = 1
 
