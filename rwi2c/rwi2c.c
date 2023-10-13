@@ -15,6 +15,7 @@ typedef unsigned char   u8;
 
 // Global file descriptor used to talk to the I2C bus:
 int i2c_fd = -1;
+int fd = -1;
 // Default RPi B device name for the I2C bus exposed on GPIO2,3 pins (GPIO2=SDA, GPIO3=SCL): 
 const char *i2c_fname = "/dev/i2c-6";
 
@@ -79,6 +80,20 @@ int i2c_read_1010(u8 slave_addr, u8 reg, u8 *result) {
     struct i2c_msg msgs[2];
     struct i2c_rdwr_ioctl_data msgset[1];
 
+        // I2C 장치 파일 열기
+    fd = open("/dev/i2c-6", O_RDWR);
+    if (fd < 0) {
+        printf("iw:Failed to open /dev/i2c-6\n");
+        return 1;
+    }
+
+        // I2C 장치 주소 설정
+        if (ioctl(fd, I2C_SLAVE, slave_addr) < 0) {
+            printf("iw:Failed to set I2C address(data from 0x%02X)... errno : %d\n",slave_addr, errno);
+            close(fd);
+            return 1;
+        }
+
     *result = 0;
     outbuf[0] = reg;
 
@@ -87,15 +102,16 @@ int i2c_read_1010(u8 slave_addr, u8 reg, u8 *result) {
     msgs[0].len = 1;
     msgs[0].buf = outbuf;
 
-    msgs[1].addr = slave_addr;
-    msgs[1].flags = I2C_M_RD;
+    msgs[1].addr = slave_addr | 0x01;
+    //msgs[1].flags = I2C_M_RD;
+    msgs[1].flags = 0;
     msgs[1].len = 2;
     msgs[1].buf = inbuf;
 
     msgset[0].msgs = msgs;
     msgset[0].nmsgs = 2;
 
-    if (ioctl(i2c_fd, I2C_RDWR, &msgset) < 0) {
+    if (ioctl(fd, I2C_RDWR, &msgset) < 0) {
         perror("ioctl(I2C_RDWR) in i2c_read");
         return -1;
     }
@@ -105,6 +121,8 @@ int i2c_read_1010(u8 slave_addr, u8 reg, u8 *result) {
 
     printf("Result: %X\n", *result);
 
+    close(fd);
+
     return 0;
 }
 
@@ -113,6 +131,20 @@ int i2c_read(u8 slave_addr, u8 reg, u8 *result) {
     u8 outbuf[1], inbuf[2]; // 변경: inbuf 크기를 2로 변경
     struct i2c_msg msgs[2];
     struct i2c_rdwr_ioctl_data msgset[1];
+
+    // I2C 장치 파일 열기
+    fd = open("/dev/i2c-6", O_RDWR);
+    if (fd < 0) {
+        printf("iw:Failed to open /dev/i2c-6\n");
+        return 1;
+    }
+
+        // I2C 장치 주소 설정
+        if (ioctl(fd, I2C_SLAVE, slave_addr) < 0) {
+            printf("iw:Failed to set I2C address(data from 0x%02X)... errno : %d\n",slave_addr, errno);
+            close(fd);
+            return 1;
+        }
 
     // Frame 1: Two-Wire Slave Address Byte + Frame 2: Pointer Register Byte
     outbuf[0] = reg;
@@ -140,6 +172,8 @@ int i2c_read(u8 slave_addr, u8 reg, u8 *result) {
     // Frame 5: Data Byte 2 Read Register
     *result = inbuf[1];
     printf("%d\n", *result);
+
+   close(fd);
     return 0;
 }
 /*
@@ -232,7 +266,7 @@ int main(void){
 
     i2c_init();
 
-    printf("\n yjread:");
+    printf(" yjread:");
     yj_read();    
     printf("\n i2c_read:");
     i2c_read(slave_addr, w_reg, read_data);
