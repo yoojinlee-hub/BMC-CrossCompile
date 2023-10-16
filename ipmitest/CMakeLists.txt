@@ -10,13 +10,13 @@ INCLUDE (bmc_amd_build)
 
 
 cmake_minimum_required (VERSION 2.6)
-project (i2cipmi)
+project (ipmitest)
 # The version number.
-set (i2cipmi_VERSION_MAJOR 1)
-set (i2cipmi_VERSION_MINOR 0)
+set (ipmitest_VERSION_MAJOR 1)
+set (ipmitest_VERSION_MINOR 0)
 
 # add the executable
-add_executable (i2cipmi i2cipmi.c)
+add_executable (ipmitest ipmitest.c)
 
-install(TARGETS i2cipmi
+install(TARGETS ipmitest
         RUNTIME DESTINATION bin)

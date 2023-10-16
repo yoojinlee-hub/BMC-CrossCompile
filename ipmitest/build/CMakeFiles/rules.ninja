@@ -6,7 +6,7 @@
 # It is included in the main 'build.ninja'.
 
 # =============================================================================
-# Project: i2cipmi
+# Project: ipmitest
 # Configurations: 
 # =============================================================================
 # =============================================================================
@@ -14,7 +14,7 @@
 #############################################
 # Rule for compiling C files.
 
-rule C_COMPILER__i2cipmi_
+rule C_COMPILER__ipmitest_
   depfile = $DEP_FILE
   deps = gcc
   command = /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/bin/arm-openbmc-linux-gnueabi/arm-openbmc-linux-gnueabi-gcc --sysroot=/usr/local/oecore-x86_64/sysroots/armv7ahf-vfpv4d16-openbmc-linux-gnueabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -24,7 +24,7 @@ rule C_COMPILER__i2cipmi_
 #############################################
 # Rule for linking C executable.
 
-rule C_EXECUTABLE_LINKER__i2cipmi_
+rule C_EXECUTABLE_LINKER__ipmitest_
   command = $PRE_LINK && /usr/local/oecore-x86_64/sysroots/x86_64-oesdk-linux/usr/bin/arm-openbmc-linux-gnueabi/arm-openbmc-linux-gnueabi-gcc --sysroot=/usr/local/oecore-x86_64/sysroots/armv7ahf-vfpv4d16-openbmc-linux-gnueabi $FLAGS $LINK_FLAGS $in -o $TARGET_FILE $LINK_PATH $LINK_LIBRARIES && $POST_BUILD
   description = Linking C executable $TARGET_FILE
   restat = $RESTAT
@@ -42,7 +42,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = /usr/bin/cmake --regenerate-during-build -S/home/yjlee/git_yj/BMC-CrossCompile/i2cipmi -B/home/yjlee/git_yj/BMC-CrossCompile/i2cipmi/build
+  command = /usr/bin/cmake --regenerate-during-build -S/home/yjlee/git_yj/BMC-CrossCompile/ipmitest -B/home/yjlee/git_yj/BMC-CrossCompile/ipmitest/build
   description = Re-running CMake...
   generator = 1
 

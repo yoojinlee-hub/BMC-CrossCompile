@@ -1,7 +1,0 @@
-/home/yjlee/git_yj/BMC-CrossCompile/i2cipmi/build/CMakeFiles/i2cipmi.dir
-/home/yjlee/git_yj/BMC-CrossCompile/i2cipmi/build/CMakeFiles/edit_cache.dir
-/home/yjlee/git_yj/BMC-CrossCompile/i2cipmi/build/CMakeFiles/rebuild_cache.dir
-/home/yjlee/git_yj/BMC-CrossCompile/i2cipmi/build/CMakeFiles/list_install_components.dir
-/home/yjlee/git_yj/BMC-CrossCompile/i2cipmi/build/CMakeFiles/install.dir
-/home/yjlee/git_yj/BMC-CrossCompile/i2cipmi/build/CMakeFiles/install/local.dir
-/home/yjlee/git_yj/BMC-CrossCompile/i2cipmi/build/CMakeFiles/install/strip.dir
