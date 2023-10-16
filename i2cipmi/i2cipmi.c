@@ -5,7 +5,14 @@
 #include <unistd.h>
 #include <linux/ipmi.h> 
 
-// I2C 장치 파일 열기 및 설정
+/*************************
+ * 
+ * 
+ * // I2C 장치 파일 열기 및 설정
+ * 
+ * 
+ * 
+**************************/
 int open_i2c_device(const char *device, int address) {
     int fd = open(device, O_RDWR);
     if (fd < 0) {
@@ -21,27 +28,108 @@ int open_i2c_device(const char *device, int address) {
     
     return fd;
 }
-
-// I2C 장치 파일 닫기
+/**************************
+ * 
+ * 
+ * // I2C 장치 파일 닫기
+ * 
+ * 
+ * 
+***************************/
 void close_i2c_device(int fd) {
     close(fd);
 }
 
-// I2C를 통해 IPMI 명령을 보내는 함수
-int send_ipmi_command(int fd, const unsigned char *command, int command_size, unsigned char *response, int response_size) {
-    if (write(fd, command, command_size) != command_size) {
-        perror("Failed to write IPMI command");
-        return -1;
+/*************************
+ * 
+ * 
+ * // I2C Read function (musik)
+ * 
+ * 
+ * 
+*************************/
+int yj_read(){
+    int fd;
+    int i2c_addresses[] = {0x48, 0x49, 0x4a, 0x4d}; // 여러 개의 I2C 주소
+    char data[2];
+    int T=0;
+
+    // I2C 장치 파일 열기
+    fd = open("/dev/i2c-6", O_RDWR);
+    if (fd < 0) {
+        printf("iw:Failed to open /dev/i2c-6\n");
+        return 1;
     }
 
-    if (read(fd, response, response_size) != response_size) {
-        perror("Failed to read IPMI response");
+    for (int i = 0; i < sizeof(i2c_addresses) / sizeof(i2c_addresses[0]); i++) {
+        // I2C 장치 주소 설정
+        if (ioctl(fd, I2C_SLAVE, i2c_addresses[i]) < 0) {
+            printf("iw:Failed to set I2C address(data from 0x%02X)... errno : %d\n",i2c_addresses[i], errno);
+            close(fd);
+            return 1;
+        }
+
+        // 데이터 읽기
+        if (read(fd, data, sizeof(data)) != sizeof(data)) {
+            printf("iw:Failed to read data (data from 0x%02X)... errno : %d\n",i2c_addresses[i], errno);
+            close(fd);
+            return 1;
+        }
+
+    T = ((data[0]&0xFF)<<4)|((data[1]>>4)&0x0F);
+        
+        // 읽은 데이터 출력
+        printf("iw:Data from 0x%02X: %02X %02X\n", i2c_addresses[i], data[0], data[1]);
+    printf("%d\n",T);
+    printf("%d\n",T*625 );
+    }
+
+    // I2C 장치 파일 닫기
+    close(fd);
+
+    return 0;
+}
+
+/*************************
+ * 
+ * // Write to an I2C slave device's register:
+ * 
+ * 
+**************************/
+int i2c_write(u8 slave_addr, u8 reg, u8 *data) {
+    int retval;
+    u8 outbuf[3];
+
+    struct i2c_msg msgs[1];
+    struct i2c_rdwr_ioctl_data msgset[1];
+
+    outbuf[0] = reg;
+    outbuf[1] = data[0];
+    outbuf[2] = data[1];
+
+    msgs[0].addr = slave_addr;
+    msgs[0].flags = 0;
+    msgs[0].len = 2;
+    msgs[0].buf = outbuf;
+
+    msgset[0].msgs = msgs;
+    msgset[0].nmsgs = 1;
+
+    if (ioctl(i2c_fd, I2C_RDWR, &msgset) < 0) {
+        perror("iw__ioctl(I2C_RDWR) in i2c_write");
         return -1;
     }
 
     return 0;
 }
 
+
+/*****************
+ * 
+ * Main
+ * 
+ * ? : data byte 2 안에 원하는 command를 어떻게 전달 할 것인가
+ * ***************/
 int main() {
     const char *i2c_device = "/dev/i2c-6";
     int i2c_address = 0x48; // I2C 장치의 주소
@@ -55,27 +143,7 @@ int main() {
         return 1;
     }
 
-    // IPMI LAN 주소 설정 (예시 주소: 0x04)
-    struct ipmi_lan_addr lan_addr;
-    lan_addr.addr_type = IPMI_LAN_ADDR_TYPE;
-    lan_addr.channel = 0; // 채널 번호 설정
-    lan_addr.privilege = 0; // Privilege Level 설정
-    lan_addr.session_handle = 0; // 세션 핸들 설정
-    lan_addr.remote_SWID = 0; // Remote SWID 설정
-    lan_addr.local_SWID = 0; // Local SWID 설정
-    lan_addr.lun = 0; // LUN 설정
 
-    // IPMI 명령 보내기
-    if (send_ipmi_command(fd, ipmi_command, sizeof(ipmi_command), ipmi_response, sizeof(ipmi_response) < 0)) {
-        close_i2c_device(fd);
-        return 1;
-    }
-
-    // 응답 데이터 출력
-    printf("IPMI Response Data:\n");
-    for (int i = 0; i < sizeof(ipmi_response); i++) {
-        printf("Byte %d: %02X\n", i, ipmi_response[i]);
-    }
 
     // I2C 장치 파일 닫기
     close_i2c_device(fd);
